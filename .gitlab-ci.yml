@@ -1,0 +1,18 @@
+variables:
+  CI_IMAGE: "pix-board-ui"
+  TRIGGER_APPS_BUILD: "yes"
+#
+# defines stage/job build/build-master.
+#
+
+include:
+  - project: 'pixelcore/platform'
+    file: '/scripts/gl-cicd/.gitlab-ci-template.yml'  
+  
+#
+# add before_script to build/build-master.
+#
+
+build-master:
+  before_script:
+    - docker run -v `pwd`:/usr/src/app -w /usr/src/app node:lts-alpine3.12 sh -c 'npm install && npm run build'
